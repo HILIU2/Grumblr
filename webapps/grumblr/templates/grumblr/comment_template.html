@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<table id = "comment_data_{{comment.pk}}" class="comment_table">
+   <tr>
+        <td class="comment_entry_image_td">
+            <div class="comment_entry_image_div">
+                {%if comment.owner.selfi %}
+                <img src="{% url 'photo' comment.owner.user_name%}" class="comment_thumbnail" alt="oo">
+                {% else %}
+                <img src="{% static "images/thumbnail2.png" %}" class="comment_thumbnail" alt="oo">
+                {% endif %}
+            </div>
+        </td>
+        <td><div class="comment_entries_collection">
+            <div class="comment_name">
+                <a href="{%url 'profile' comment.owner.user_name %}">{{comment.owner.first_name}} {{comment.owner.last_name}}</a>
+            </div>
+            <div class="comment_entry">{{comment.text}}</div>
+            <div class="time statu">
+                {{comment.created_date}}
+            </div>
+        </div></td>
+   </tr>
+</table>

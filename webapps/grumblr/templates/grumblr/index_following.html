@@ -1,0 +1,118 @@
+{% extends "grumblr/index.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div>{{message}}</div>
+
+    <div id="insertAfter_div" class="col-sm-7">
+        <div id="insertAfter" class="{{last_comment}}"></div>
+        <div class="blog-post">
+               {% for status in status_list %}
+              <div class="status row col-xs-12">
+        <div class="row col-xs-3">
+            <a href="{% url 'profile' status.user.user_name %}">
+                {%if status.user.selfi %}
+                <img src="{% url 'photo' status.user.user_name%}" class="thumbnail col-xs-10" alt="oo">
+                {% else %}
+                <img src="{% static "images/thumbnail2.png" %}" class="thumbnail col-xs-10" alt="oo">
+                {% endif %}
+            </a>
+        </div>
+
+        <div class="row row col-xs-9 col-md-9 col-sm-9">
+              <div class="name">
+                  <a href="{%url 'profile' status.user.user_name %}">{{status.user.first_name}} {{status.user.last_name}}</a>
+              </div>
+
+              <p class="statu">
+                  {{status.text}}
+              </p>
+
+              <div class="time statu">
+                   {{status.created_date}}
+              </div>
+
+              <div>
+                  <div id="comments_{{status.id}}" class="row comment-area">
+                      {% for comment in comment_list %}
+                        {% if comment.status == status %}
+                            <table id="comment_data_{{comment.pk}}" class="comment_table">
+                               <tr>
+                                    <td class="comment_entry_image_td">
+                                        <div class="comment_entry_image_div">
+                                            {%if comment.owner.selfi %}
+                                            <img src="{% url 'photo' comment.owner.user_name%}" class="comment_thumbnail" alt="oo">
+                                            {% else %}
+                                            <img src="{% static "images/thumbnail2.png" %}" class="comment_thumbnail" alt="oo">
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td><div class="comment_entries_collection">
+                                        <div class="comment_name">
+                                            <a href="{%url 'profile' comment.owner.user_name %}">{{comment.owner.first_name}} {{comment.owner.last_name}}</a>
+                                        </div>
+                                        <div class="comment_entry">{{comment.text}}</div>
+                                        <div class="time statu">
+                                            {{comment.created_date}}
+                                        </div>
+                                    </div></td>
+                               </tr>
+                            </table>
+                        {% endif %}
+                        {% endfor %}
+                      <div id="comment_entry_bottom_{{status.id}}" class="I am here!!"></div>
+                  </div>
+
+                  <div class="comment-area">
+                      <table>
+                          <tr>
+                              <td>
+                                   <div class="">
+                                       {%if user.selfi %}
+                                        <img src="{% url 'photo' user.user_name%}" class="comment_thumbnail" alt="oo">
+                                        {% else %}
+                                        <img src="{% static "images/thumbnail2.png" %}" class="comment_thumbnail" alt="oo">
+                                        {% endif %}
+                                   </div>
+                              </td>
+                              <td  class="input_width">
+                                  <form method="POST" id="addComment_{{status.id}}" class="addComment comment_entries_collection">
+                                      {% for field in form_comment.visible_fields %}
+                                          <div class="form-group">
+                                                {{field}}
+                                          </div>
+                                        {% endfor %}
+                                        {% csrf_token %}
+                                  </form>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+
+        </div>
+
+    </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="sidebar-module sidebar-module-inset">
+            {% for friend in following %}
+                <div class="row">
+                    <a href="{% url 'profile' friend.user_name %}">
+                      {%if friend.selfi %}
+                        <img src="{% url 'photo' friend.user_name%}" class="thumbnail_small col-xs-10" alt="oo">
+                        {% else %}
+                        <img src="{% static "images/thumbnail2.png" %}" class="thumbnail_small col-xs-10" alt="oo">
+                      {% endif %}
+                    </a>
+                    <div class="name"> {{ friend.first_name}} {{friend.last_name}} </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}

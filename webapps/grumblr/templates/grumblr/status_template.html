@@ -1,0 +1,63 @@
+{% load staticfiles %}
+{% for status in status_list %}
+    <div class="status row col-xs-12">
+        <div class="row col-xs-3">
+            <a href="{% url 'profile' status.user.user_name %}">
+                {%if status.user.selfi %}
+                <img src="{% url 'photo' status.user.user_name%}" class="thumbnail col-xs-10" alt="oo">
+                {% else %}
+                <img src="{% static "images/thumbnail2.png" %}" class="thumbnail col-xs-10" alt="oo">
+                {% endif %}
+            </a>
+        </div>
+
+        <div class="row row col-xs-9 col-md-9 col-sm-9">
+              <div class="name">
+                  <a href="{%url 'profile' status.user.user_name %}">{{status.user.first_name}} {{status.user.last_name}}</a>
+              </div>
+
+              <p class="statu">
+                  {{status.text}}
+              </p>
+
+              <div class="time statu">
+                   {{status.created_date}}
+              </div>
+
+              <div>
+                  <div id="comments_{{status.id}}" class="row comment-area">
+
+                      <div id="comment_entry_bottom_{{status.id}}" class="I am here!!"></div>
+                  </div>
+
+                  <div class="comment-area">
+                      <table>
+                          <tr>
+                              <td>
+                                   <div class="">
+                                       {%if user.selfi %}
+                                        <img src="{% url 'photo' user.user_name %}" class="comment_thumbnail" alt="oo">
+                                        {% else %}
+                                        <img src="{% static "images/thumbnail2.png" %}" class="comment_thumbnail" alt="oo">
+                                        {% endif %}
+                                   </div>
+                              </td>
+                              <td  class="input_width">
+                                  <form method="POST" id="addComment_{{status.id}}" class="addComment comment_entries_collection">
+                                      {% for field in form_comment.visible_fields %}
+                                          <div class="form-group">
+                                                {{field}}
+                                          </div>
+                                        {% endfor %}
+                                        {% csrf_token %}
+                                  </form>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+
+        </div>
+
+    </div>
+{% endfor %}

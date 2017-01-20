@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Login Grumblr{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+
+    <body>
+
+        <!-- Top content -->
+        <div>
+            <div class="outer">
+                <div>
+                    <div >
+                        <div class="form-bottom">
+                            <form id="login-form" method="post" class="login-form" action="{% url 'login' %}">
+                                <div class="form-group">
+                                    <input type="username" name="username" class="form-control" id="username" value="{{username}}" placeholder="Username">
+                                    {% csrf_token %}
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                    {% csrf_token %}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-danger btn-block" name="signin">Sign in!</button>
+                                </div>
+                            </form >
+
+                            <form method="GET" class="login-form" action="{%url 'register' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block" name="signup">Sign up</button>
+                                    <a href="{% url 'forget_password' %}">Forget password?</a>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="backgrouddiv">
+            <img class= "loginbackground" src="{% static "images/grumblr-login.jpg" %}">
+        </div>
+</body>
+
+</html>
+
+
+
